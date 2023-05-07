@@ -1,0 +1,21 @@
+<!--html-->
+<input type="file" name="image" >
+
+<!--js-->
+const file_input = document.querySelector('input');
+file_input.onChange = function() {
+    <!--获取上传图片-->
+    const file = this.files[0];
+    
+    <!--创建新的FileReader-->
+    const reader = new FileReader();
+    <!--将文件读取为DataUrl格式-->
+    reader.readAsDataURL(file);
+    <!--读取成功回调函数-->
+    reader.onload = function() {
+        const img = document.createElement('img');
+        <!--将读取结果存入img标签的src属性-->
+        img.src = reader.result;
+        document.body.appendChild(img);
+    }
+}
