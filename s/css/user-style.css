@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+#i8dk {
+    background-color: #f8c4c4;
+}
+
+.c2406 {
+    font-size: 16px;
+}
+
+.c4102 {
+    color: #77ae3c;
+}
+
+.c5172 {
+    margin-bottom: 0px;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-family: lato, ubuntu, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    color: rgb(4, 20, 58);
+}
