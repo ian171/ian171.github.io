@@ -35,26 +35,20 @@ body {
             var month = date.getMonth() + 1; //获取月份p
             var day = date.getDate(); //获取日期
             var hour = date.getHours(); //获取小时
+            var browser = navigator.appName;//获取浏览器名字
+            var b_version = navigator.appVersion;//获取浏览器版本信息
+            var version = parseFloat(b_version);//提取浏览器版本号
             hour = hour < 10 ? '0' + hour : hour;
             var minute = date.getMinutes(); // 获取分
             minute = minute < 10 ? '0' + minute : minute;
             var seconds = date.getSeconds(); //获取秒
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            return year + '年' + month + '月' + day + '日&nbsp;' + hour + ':' + minute + ':' + seconds;
+            return year + '年' + month + '月' + day + '日&nbsp;' + hour + ':' + minute + ':' + seconds + '浏览器信息' + b_version + browser + version;
         }
  
         setInterval(function() {
             document.querySelector('.box').innerHTML = getTime();
         }, 1000)
-    </script>
-    <script>
-    var browser = navigator.appName;//获取浏览器名字
-    var b_version = navigator.appVersion;//获取浏览器版本信息
-    var version = parseFloat(b_version);//提取浏览器版本号
-​
-    document.write("浏览器名称是: " + browser)//浏览器名称是: Netscape
-    document.write("<br />")
-    document.write("浏览器版本是: " + version)//浏览器版本是: 5
     </script>
 </body>
 
