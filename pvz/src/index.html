@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物大战僵尸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /* 设置怪异盒子 */
+            box-sizing: border-box;
+        }
+        body{
+            background-color:#949489;
+        }
+        #app {
+            margin: 50px auto;
+            width: 1400px;
+            height: 600px;
+            border: 5px solid #010101;
+            border-radius: 50px;
+            background-image: url(../images/background1.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        #topui {
+            width: 1200px;
+            height: 45px;
+            position: absolute;
+            top: 10px;
+            left: 150px;
+        }
+        /* 能量栏 */
+        .vessel{
+            width: 100px;
+            height: 45px;
+            background-image: url(../images/sunback.png);
+            background-repeat: no-repeat;
+            background-size: 100px;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 30px;
+            padding-left: 15px;
+            text-align: center;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+        }
+        .energy{
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            border-radius: 20px;
+            opacity: 1;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+        /* 按钮样式 */
+        .button{
+            width: 120px;
+            height: 45px;
+            line-height: 41px;
+            border-radius: 5px;
+            color: aliceblue;
+            background-repeat: no-repeat;
+            text-align: center;
+            position: absolute;
+            top: 0px;
+            left: 1080px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+
+        }
+        /* 删除植物 */
+        .delete{
+            width: 45px;
+            height: 45px;
+            background-image: url(../images/铁锹.png);
+            background-repeat: no-repeat;
+            background-size: 40px;
+            text-align: center;
+            position: absolute;
+            top: 0px;
+            left: 850px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+        }
+        .delete:hover{
+            transform: scale(1.2);
+        }
+        /* 得分 */
+        .grade{
+            width: 200px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            font-size: 25px;
+            color: #fafcfa;
+            position: absolute;
+            top: 0;
+            left: 400px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            background-color: lightslategrey;
+            border-radius: 20px;
+        }
+        .button:hover{
+            color: #09f63c;
+        }
+        #leftui {
+            width: 100px;
+            height: 455px;
+            position: absolute;
+            top: 60px;
+            left: 10px;
+        }
+        /* 植物选择框单元样式 */
+        .plantui{
+            width: 100px;
+            height: 60px;
+            font-weight: 700;
+            padding-left: 60px;
+            padding-top: 40px;
+            margin-bottom: 5px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            border-radius: 10px;
+        }
+        .plantui:hover{
+            
+            border: 1px solid #09f63c;
+        }
+        /* 网格坐标样式 */
+        .geid{
+            width: 80px;
+            height: 100px;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            border-radius: 20px;
+            position: absolute;
+            top: 60px;
+            left: 250px;
+        }
+        /* 植物div */
+        .plant {
+            width: 80px;
+            height: 100px;
+            text-align: center;
+            color: rgb(249, 250, 251);
+            border: 1px solid #000000;
+            border-color: rgba(0, 0, 0,0);
+            border-radius: 20px;
+            position: absolute;
+            /* opacity: 0.8; */
+        }
+        /* 植物img */
+        .plantimg{
+            width: 80%;
+            margin-top: 0px;
+            margin-left: 10px;
+            position: absolute;
+            top: 25px;
+            left: 0;
+        }
+        .plantspan{
+            position: absolute;
+            top: 0;
+            left: 25px;
+        }
+        /* 僵尸div */
+        .zombie {
+            width: 80px;
+            height: 102px;
+            text-align: center;
+            color: rgb(7, 7, 7);
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            border-radius: 20px;
+            border-radius: 20px;
+            position: absolute;
+        }
+        /* 僵尸img */
+        .zombieimg{
+            width: 150%;
+            margin-top: -12px;
+            margin-left: -30px;
+        }
+        /* 子弹 */
+        .bullet{
+            width: 10px;
+            height: 10px;
+            margin-top: 35px;
+            margin-left: 60px;
+            background-color: #02a0f5;
+            border: 1px solid #000;
+            border-radius: 50%;
+            position: absolute;
+        }
+        /* 准备游戏样式 */
+        #go{
+            width: 255px;
+            height: 108px;
+            position: absolute;
+            top: 246px;
+            left: 573px;
+            background-image: url(../images/loading/loading_0.png);
+            animation: xz 1s infinite;
+        }
+        @keyframes xz{
+            0%{
+                transform: scale(1);
+            }
+            50%{
+                transform: scale(1.1);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+        /* 游戏结束 */
+        .end{
+            width: 566px;
+            height: 470px;
+            position: absolute;
+            top: 50px;
+            left: 400px;
+            background-image: url(../images/zombieWon.png);
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            animation: end 2s infinite;
+        }
+        @keyframes end {
+            0%{
+                transform: scale(1);
+            }
+            50%{
+                transform: scale(1.1);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+        /* 游戏胜利 */
+        .vict{
+            width: 566px;
+            height: 470px;
+            text-align: center;
+            padding-top: 308px;
+            padding-left: 230px;
+            padding-right: 200px;
+            font-size: 40px;
+            color: white;
+            background-image: url(../images/游戏胜利.png);
+            background-size: 1000px;
+            background-position: left -200px top -50px;
+            background-repeat: no-repeat;
+            border: 1px solid #000;
+            border-color: rgba(0, 0, 0,0);
+            position: absolute;
+            top: 50px;
+            left: 400px;
+            animation: vict 2s infinite;
+        }
+        @keyframes vict {
+            0%{
+                transform: scale(1);
+            }
+            50%{
+                transform: scale(1.1);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+        /* 时钟 */
+        .nz{
+            width: 100px;
+            height: 50px;
+            margin: 5px;
+            padding-left: 40px;
+            padding-top: 10px;
+            font-weight: 700;
+            color: #fafcfa;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 15px;
+            background-image: url(../images/闹钟.png);
+            background-size: 50px;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 60;
+            left: 900px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 植物选择框 -->
+        <div id="leftui"></div>
+        <!-- 顶部UI栏 -->
+        <div id="topui"></div>
+        <!-- 游戏准备画面 -->
+        <div id="go"></div>
+        <!-- 测试 -->
+        </div>
+    </div>
+    <script>
+
+		var game = document.getElementById('app');
+         // 获取游戏界面元素
+        var leftUI = document.getElementById('leftui');
+        // 获取植物选择框
+        var topUI = document.getElementById('topui');
+        // 获取植物选择框
+        var Go = document.getElementById('go');
+        // 开始游戏按钮
+
+        // 定义游戏状态
+        var gameState = {
+            plants: [],// 植物列表
+            zombies: [],// 僵尸列表
+            energys:[],//能量列表
+            bullets: [],// 子弹列表
+            toolbar:[],// 顶部UI栏列表
+            labels:[],// 植物选择框列表
+            geids:[], // 网格坐标列表
+            isOver: "",// 游戏是否结束
+            occupy:false,  // 选中的植物的对象
+            delete:false,//选择要删除的植物
+            grade:0,//得分
+            startTime1:0,  //游戏运行时间
+            startTime2:0,  //游戏运行时间
+            pro:0.01
+
+        };
+
+        // 定义植物属性
+        var PlantUte = {
+            // 向日葵
+            SunFlower:{
+                name:"向日葵",
+                price:50,
+                uisrc1:"../images/cards/plants/SunFlower.png",
+                uisrc2:"../images/cards/plants/SunFlowerG.png",
+                datasrc:"../images/plants/sunflower/idle/idle_0.png",
+                url:"../images/plants/sunflower/idle/idle_",
+                count:17,
+                hp:100,
+                attack:0,
+                speed:0,
+                range:0,
+                color:"red"
+            },
+            // 初级豌豆射手
+            Peashooter:{
+                name:"初级豌豆射手",
+                price:50,
+                uisrc1:"../images/cards/plants/Peashooter.png",
+                uisrc2:"../images/cards/plants/PeashooterG.png",
+                datasrc:"../images/plants/peashooter/attack/attack_0.png",
+                url:"../images/plants/peashooter/attack/attack_",
+                count:7,
+                hp:100,
+                attack:5,
+                speed:500,
+                range:500,
+                color:"chartreuse"
+            },
+            // 中级豌豆射手
+            Repeater:{
+                name:"中级豌豆射手",
+                price:100,
+                uisrc1:"../images/cards/plants/Repeater.png",
+                uisrc2:"../images/cards/plants/RepeaterG.png",
+                datasrc:"../images/plants/repeater/attack/attack_0.png",
+                url:"../images/plants/repeater/attack/attack_",
+                count:14,
+                hp:100,
+                attack:10,
+                speed:500,
+                range:500,
+                color:"chartreuse"
+            },
+            // 高级豌豆射手
+            GatlingPea:{
+                name:"高级豌豆射手",
+                price:200,
+                uisrc1:"../images/cards/plants/GatlingPea.png",
+                uisrc2:"../images/cards/plants/GatlingPeaG.png",
+                datasrc:"../images/plants/gatlingpea/attack/attack_0.png",
+                url:"../images/plants/gatlingpea/attack/attack_",
+                count:12,
+                hp:100,
+                attack:10,
+                speed:300,
+                range:500,
+                color:"chartreuse"
+            },
+            // 番茄炸弹
+            CherryBomb:{
+                name:"番茄炸弹",
+                price:200,
+                uisrc1:"../images/cards/plants/CherryBomb.png",
+                uisrc2:"../images/cards/plants/CherryBombG.png",
+                datasrc:"../images/plants/cherrybomb/idle/idle_0.png",
+                url:"../images/plants/cherrybomb/idle/idle_",
+                count:6,
+                hp:50,
+                attack:100,
+                speed:1000,
+                range:57,
+                color:"rgba(0,0,0,0)"
+            },
+            // 食人花
+            Chomper:{
+                name:"食人花",
+                price:300,
+                uisrc1:"../images/cards/plants/Chomper.png",
+                uisrc2:"../images/cards/plants/ChomperG.png",
+                datasrc:"../images/plants/chomper/attack/attack_0.png",
+                url:"../images/plants/chomper/attack/attack_",
+                count:8,
+                hp:100,
+                attack:20,
+                speed:100,
+                range:57,
+                color:"rgba(0,0,0,0)"
+            },
+            // 坚果防御
+            WallNut:{
+                name:"坚果防御",
+                price:50,
+                uisrc1:"../images/cards/plants/WallNut.png",
+                uisrc2:"../images/cards/plants/WallNutG.png",
+                datasrc:"../images/plants/wallnut/idleH/idleH_0.png",
+                url:"../images/plants/wallnut/idleH/idleH_",
+                count:15,
+                hp:1000,
+                attack:0,
+                speed:0,
+                range:0,
+                color:"red"
+            }
+        }
+        
+        // 顶部UI类
+        function ToolBar(text,style){
+            this.text = text;
+            this.element = document.createElement('div');
+            this.element.className = style;
+            this.element.innerText = this.text;
+            topUI.appendChild(this.element); // 添加到游戏选择UI框
+            gameState.toolbar.push(this)
+        }
+       
+        // 植物选择框类
+        function Labels(object){
+            this.object = object;
+            this.price=object.price;// 价格
+            this.uisrc1 = "url("+object.uisrc1+")";// UI图标路径
+            this.uisrc2 = "url("+object.uisrc2+")";
+            this.occupy = false;//是否选中
+            this.element = document.createElement('div'); // 元素节点
+            this.element.className = 'plantui'; // 添加样式
+            this.element.style.backgroundImage = this.uisrc1;
+            this.element.innerText=this.price;// 显示价格
+            leftUI.appendChild(this.element); // 添加到游戏选择UI框
+            gameState.labels.push(this); // 添加到植物选择框列表
+        }
+
+        // 网格坐标类
+        function Geid(x,y){
+            this.x = x;
+            this.y = y;
+            this.occupy = false;
+            this.element = document.createElement("div");
+            this.element.className = "geid";
+            this.element.style.top = this.y + 'px'; // 设置位置
+            this.element.style.left = this.x + 'px';
+            game.appendChild(this.element)
+            gameState.geids.push(this)
+        }
+
+        // 定义能量类
+        function EnErgy(object){
+            this.object = object;
+            this.x = object.x;
+            this.y = object.y+50;
+            this.hp = true;
+            this.element = document.createElement('img'); // 元素节点
+            this.element.src = "../images/sun.gif" ;
+            this.element.className = 'energy'; // 添加样式
+            this.element.style.top = this.y + "px";
+            this.element.style.left = this.x + "px";
+            game.appendChild(this.element); // 添加到游戏界面
+            gameState.energys.push(this);
+        }
+
+        // 定义植物类
+        function Plant(x, y,object) {
+            this.x = x;
+            this.y = y;
+            this.object = object;
+            this.Animation = {
+                src:object.datasrc,
+                url:object.url,
+                count:object.count,
+                num:0,
+                animation:false
+            }
+            this.set = "set"+this.x+this.y
+            this.name = object.name;//名字
+            this.hp = object.hp; // 血量
+            this.attack = object.attack; // 攻击力
+            this.speed = object.speed; // 攻击速度
+            this.range = object.range; // 射程
+            this.color = object.color;//攻击颜色
+            this.lastAttackTime = 0; // 上次攻击时间
+            this.element = document.createElement('div'); // 元素节点
+            this.element.className = 'plant'; // 添加样式
+            this.element.style.top = this.y + 'px'; // 设置位置
+            this.element.style.left = this.x + 'px';
+            
+            this.element2 = document.createElement('img'); // 元素节点
+            this.element2.className = 'plantimg'; // 添加样式
+            this.element2.src = this.Animation.src;
+            this.element2.alt = this.name;
+            this.element3 = document.createElement('span'); // 元素节点
+            this.element3.className = 'plantspan'; // 添加样式
+            this.element3.innerText = this.hp;
+
+            game.appendChild(this.element); // 添加到游戏界面
+            this.element.appendChild(this.element2); // 添加img标签
+            this.element.appendChild(this.element3); // 添加h1标签
+            gameState.plants.push(this); // 添加到植物列表
+
+        }
+
+        // 定义僵尸类
+        function Zombie(x, y) {
+            this.x = x;
+            this.y = y;
+            // 僵尸动画属性
+            this.Animation = {
+                src:"../images/zombies/run/run_0.png",
+                url:"../images/zombies/run/run_",
+                count:30,
+                num:0,
+                animation:false
+            }
+            this.hp = 100; // 血量
+            this.attack = 1; // 攻击力
+            this.speed = 1; // 移动速度
+            this.speedG = 50; // 攻击速度
+            this.range = 50; // 射程
+            this.rice = false;
+            this.lastAttackTime = 0; // 上次攻击时间
+            this.element = document.createElement('div'); // 元素节点
+            this.element.className = 'zombie'; // 添加样式
+            this.element.style.top = this.y + 'px'; // 设置位置
+            this.element.style.left = this.x + 'px';
+            this.element2 = document.createElement('img'); // 元素节点
+            this.element2.className = 'zombieimg'; // 添加样式
+            this.element2.src = this.Animation.src;
+            this.element3 = document.createElement('span'); // 元素节点
+            this.element3.className = 'zombiespan'; // 添加样式
+            this.element3.innerText = this.hp;
+            game.appendChild(this.element); // 添加到游戏界面
+            this.element.appendChild(this.element3); // 添加img标签
+            this.element.appendChild(this.element2); // 添加img标签
+            gameState.zombies.push(this); // 添加到僵尸列表
+        }
+
+        // 定义子弹类
+        function Bullet(plant, target) {
+            this.x = plant.x;
+            this.y = plant.y;
+            this.speed = 5; // 移动速度
+            this.attack = plant.attack;//攻击大小
+            this.target = target; // 目标对象
+            this.element = document.createElement('div'); // 元素节点
+            this.element.className = 'bullet'; // 添加样式
+            this.element.style.backgroundColor = plant.color;//子弹颜色
+            this.element.style.borderColor = plant.color;
+            this.element.style.left = this.x + 'px';// 设置位置
+            this.element.style.top = this.y + 'px'; 
+            game.appendChild(this.element); // 添加到游戏界面
+            gameState.bullets.push(this); // 添加到子弹列表
+        }
+
+        // 初始化选择框UI
+        var InitUI = function(){
+
+            // 初始化网格线坐标
+            for(var i=0;i<5;i++){
+                for(var j=0;j<9;j++){
+                    new Geid(parseInt(j*80+240),parseInt(i*100+60))
+                }
+            }
+
+            // 创建顶部UI信息栏对象实例
+            new ToolBar(500,"vessel");//能量收集
+            new ToolBar("","delete"); //铲子
+            new ToolBar(0,"grade"); //销毁僵尸数量
+            new ToolBar("00:00","nz"); //游戏时间
+
+            // 创建UI标签栏对象实例
+            new Labels(PlantUte.SunFlower); //向日葵
+            new Labels(PlantUte.Peashooter); //初级豌豆射手
+            new Labels(PlantUte.Repeater); //中级豌豆射手
+            new Labels(PlantUte.GatlingPea); //高级豌豆射手
+            // new Labels(PlantUte.CherryBomb); //番茄炸弹
+            new Labels(PlantUte.Chomper); //食人花
+            new Labels(PlantUte.WallNut); //坚果防御
+        }
+
+        // 游戏时间
+        var Initnz = function(){
+            let time = Date.now()-gameState.startTime2;
+            var date = new Date(time);
+            var m = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes()) + ':';
+            var s = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds());
+            var strDate = m+s;
+            gameState.toolbar[3].element.innerText = strDate;
+        }
+
+        // 开始游戏按钮
+        Go.onclick = function(){
+            console.log("开始游戏");
+            InitUI();
+            gameState.startTime1 = Date.now();
+            gameState.startTime2 = Date.now();
+            
+            // 游戏主循环定时器
+            var Appset =  setInterval(function(){
+                // 游戏时间
+                Initnz()
+                // 随机生成僵尸
+                if (Math.random() < gameState.pro) {
+                    console.log("生成僵尸:",gameState.pro)
+                    new Zombie(1130, parseInt(Math.random()*5)*100+60);
+                }
+
+                // 选择要种植的植物
+                gameState.labels.forEach(function(label){
+                    if(label.price <= gameState.toolbar[0].element.innerText){
+                        label.element.style.backgroundImage = label.uisrc1;
+                        label.element.style.color = "black";
+                    }else{
+                        label.element.style.backgroundImage = label.uisrc2;
+                        label.element.style.color = "red";
+                    }
+                    label.element.onclick = function(){
+                        if(gameState.toolbar[0].element.innerText >= label.price){
+                            gameState.occupy = label.object;
+                            gameState.geids.forEach(function(geid){
+                                if(geid.occupy){
+                                    geid.element.style.borderColor="rgba(251, 4, 4,0.5)";
+                                }else{
+                                    geid.element.style.borderColor="rgba(222, 251, 4, 0.759)";
+                                }
+                            })
+                        }
+                    }
+                })
+
+                // 选择生成植物的网格坐标
+                gameState.geids.forEach(function(geid){
+                    geid.element.onclick = function(){
+                        if(gameState.occupy){
+                            geid.occupy = true
+                            new Plant(geid.x,geid.y,gameState.occupy);
+                            gameState.toolbar[0].element.innerText -=gameState.occupy.price; 
+                            gameState.occupy=false;
+                            gameState.geids.forEach(function(geid){
+                                geid.element.style.borderColor="rgba(0, 0, 0,0)";
+                            })
+                        }
+                        
+                    }
+                    
+                })
+
+                // 僵尸移动
+                gameState.zombies.forEach(function(zombie) {
+                    if(zombie.x>=170){
+                        zombie.x -= zombie.speed;
+                        zombie.element.style.left = zombie.x + 'px';
+                    }else{
+                        gameState.isOver = "挑战失败";
+                    }
+                });
+              
+                // 植物攻击僵尸
+                gameState.plants.forEach(function(plant) {
+                    gameState.zombies.forEach(function(zombie) {
+                        if(zombie.y == plant.y){
+                            if (zombie.x - plant.x <= plant.range && zombie.x > plant.x) {
+                                if (Date.now() - plant.lastAttackTime >= plant.speed) {
+                                    new Bullet(plant,zombie);
+                                    plant.lastAttackTime = Date.now();
+                                    if (zombie.hp <= 0) {
+                                        gameState.toolbar[2].element.innerText = ++gameState.grade;
+                                        game.removeChild(zombie.element);
+                                        gameState.zombies.splice(gameState.zombies.indexOf(zombie), 1);
+                                    }
+                                }
+                            }
+                        }
+                        
+                    });
+                });
+
+                // 僵尸攻击植物
+                gameState.zombies.forEach(function(zombie) {
+                    gameState.plants.forEach(function(plant) {
+                        if(zombie.y == plant.y){
+                            if(zombie.x-plant.x <= zombie.range && zombie.x > plant.x ){
+                                zombie.x = plant.x+zombie.range;
+                                zombie.rice = true;
+                                if (Date.now() - zombie.lastAttackTime >= zombie.speedG) {
+                                    plant.hp-=zombie.attack;
+                                    // zombie.rice = true;
+                                    plant.element3.innerText = plant.hp;
+                                    zombie.lastAttackTime = Date.now();
+                                }
+                                // zombie.rice = false;
+                            }else{
+                                zombie.rice = false;
+                            }
+                        }
+                        // zombie.rice = false;
+                        
+                    });
+                });
+
+                // 判断该植物是否死亡，释放网格资源
+                gameState.plants.forEach(function(plant){
+                    gameState.geids.forEach(function(geid){
+                        if(plant.hp<=0){
+                            if(geid.x == plant.x && geid.y == plant.y){
+                                geid.occupy = false;
+                                game.removeChild(plant.element);
+                                gameState.plants.splice(gameState.plants.indexOf(plant), 1);
+                            }
+                        }
+                    })
+                })
+
+                // 检测子弹是否击中目标
+                gameState.bullets.forEach(function(bullet) {
+                    if (bullet.target && Math.abs(bullet.x - bullet.target.x) < 60) {
+                        bullet.target.hp -= bullet.attack;
+                        bullet.target.element3.innerText = bullet.target.hp;
+                        game.removeChild(bullet.element);
+                        gameState.bullets.splice(gameState.bullets.indexOf(bullet), 1);
+                    } else {
+                        bullet.x += bullet.speed;
+                        bullet.element.style.left = bullet.x + 'px';
+                    }
+                });
+
+                // 选择要删除的植物
+                gameState.toolbar[1].element.onclick = function(){
+                    console.log("删除植物");
+                    gameState.delete = true;
+                    gameState.geids.forEach(function(geid){
+                        if(geid.occupy){
+                            geid.element.style.borderColor="rgba(222, 251, 4, 0.759)";
+                        }else{
+                            geid.element.style.borderColor="rgba(251, 4, 4,0.5)";
+                        }
+
+                    
+                    })
+
+                }
+
+                // 选择删除植物的网格坐标
+                gameState.plants.forEach(function(plant){
+                    plant.element.ondblclick = function(){
+                        gameState.geids.forEach(function(geid){
+                            if(gameState.delete){
+                                if(geid.x == plant.x && geid.y == plant.y){
+                                    geid.occupy = false;
+                                    gameState.delete = false;
+                                    plant.hp = 0;
+                                    game.removeChild(plant.element);
+                                    gameState.plants.splice(gameState.plants.indexOf(plant), 1);
+                                }
+                                gameState.geids.forEach(function(geid){
+                                    geid.element.style.borderColor="rgba(0, 0, 0,0)";
+                                })
+                            }
+                        })
+                    }
+
+                })
+
+                // 游戏难度,每1分钟提升难度
+                if(Date.now()-gameState.startTime1>=60000){
+                    gameState.startTime1 = Date.now();
+                    gameState.pro = gameState.pro+0.01;
+                    console.log("难度升级:",gameState.pro);
+                    if(gameState.pro >=0.02){
+                        game.style.backgroundImage = "url(../images/background2.jpg)";
+                    }
+                    if(gameState.pro >=0.04){
+                        game.style.backgroundImage = "url(../images/background1.jpg)";
+                    }
+                    if(gameState.pro >=0.06){
+                        game.style.backgroundImage = "url(../images/background2.jpg)";
+                    }
+                    if(gameState.pro >=0.07){
+                        gameState.isOver = "挑战成功";
+                    }
+                    
+                }
+
+                // 植物动画
+                gameState.plants.forEach(function(plant){
+                    if(!plant.Animation.animation){
+                        var plantSet =  setInterval(function(){
+                            if(plant.name == "坚果防御" && plant.hp<600 && plant.hp >=300){
+                                plant.Animation.src = "../images/plants/wallnut/idleM/idleM_0.png";
+                                plant.Animation.url = "../images/plants/wallnut/idleM/idleM_";
+                                plant.Animation.count = 10;
+                            }
+                            if(plant.name == "坚果防御" && plant.hp<300){
+                                plant.Animation.src = "../images/plants/wallnut/idleL/idleL_0.png";
+                                plant.Animation.url = "../images/plants/wallnut/idleL/idleL_";
+                                plant.Animation.count = 14;
+                            }
+                            if(plant.Animation.num<=plant.Animation.count){
+                                plant.element2.src = plant.Animation.url+plant.Animation.num+".png";
+                                plant.Animation.num++;
+                            }else{
+                                plant.Animation.num=0;
+                            }
+                            if(plant.hp<=0){
+                                clearInterval(plantSet);
+                            }
+                 
+                        },100);
+                        plant.Animation.animation = !plant.Animation.animation;
+                    }
+                    
+                    
+                })
+
+                // 僵尸动画
+                gameState.zombies.forEach(function(zombie){
+                    if(!zombie.Animation.animation){
+                        var zombieSet =  setInterval(function(){
+                            if(zombie.hp>20 && zombie.rice){
+                                zombie.Animation.src = "../images/zombies/attack_0.png";
+                                zombie.Animation.url = "../images/zombies/attack/attack_";
+                                zombie.Animation.count = 20;
+                            }else{
+                                zombie.Animation.src = "../images/zombies/run/run_0.png";
+                                zombie.Animation.url = "../images/zombies/run/run_";
+                                zombie.Animation.count = 30;
+                            }
+                            if(zombie.hp<=20){
+                                zombie.Animation.src = "../images/zombies/dying/body/body_0.png";
+                                zombie.Animation.url = "../images/zombies/dying/body/body_";
+                                zombie.Animation.count = 17;
+                            }
+                            if(zombie.hp<=5){
+                                zombie.Animation.src = "../images/zombies/die/die_0.png";
+                                zombie.Animation.url = "../images/zombies/die/die_";
+                                zombie.Animation.count = 9;
+                            }
+                            if(zombie.hp<=1){
+                                zombie.Animation.src = "../images/zombies/dying/head/head_0.png";
+                                zombie.Animation.url = "../images/zombies/dying/head/head_";
+                                zombie.Animation.count = 11;
+                            }
+                            if(zombie.Animation.num<=zombie.Animation.count){
+                                zombie.element2.src = zombie.Animation.url+zombie.Animation.num+".png";
+                                zombie.Animation.num++;
+                            }else{
+                                zombie.Animation.num=0;
+                            }
+                            if(zombie.hp<=0){
+                                clearInterval(zombieSet);
+                            }
+
+                        },50);
+                        zombie.Animation.animation = !zombie.Animation.animation;
+                    }
+                    
+                })
+
+                // 产生小太阳
+                gameState.plants.forEach(function(plant){
+                    if(plant.name == "向日葵"){
+                        plant.name = "向日葵2";
+                        var energyset =  setInterval(function(){
+                            if(plant.hp>0){
+                                new EnErgy(plant);
+                            }else{
+                                clearInterval(energyset);
+                            }
+                        },10000)
+                    }
+                })
+
+                // 销毁小太阳
+                gameState.energys.forEach(function(energy){
+                    if(energy.hp){
+                        energy.hp = false;
+                        var energyYD = setInterval(function(){
+                            if(energy.y>10){
+                                energy.y--;
+                                energy.element.style.top = energy.y+"px";
+                            }
+                            if(energy.x>140){
+                                energy.x--;
+                                energy.element.style.left = energy.x+"px";
+                            }
+                            if(energy.x <= 140 && energy.y <=10){
+                                clearInterval(energyYD);
+                                gameState.toolbar[0].element.innerText =parseInt(gameState.toolbar[0].element.innerText)+10;
+                                game.removeChild(energy.element);
+                                gameState.energys.splice(gameState.energys.indexOf(energy), 1);
+
+                            }
+                        },10)
+                    }
+
+                })
+
+                // 如果游戏结束，停止循环
+                if (gameState.isOver == "挑战失败") {
+                    var End = document.createElement('div'); // 元素节点
+                    End.className = "end";
+                    game.appendChild(End);
+                    clearInterval(Appset);
+                    End.ondblclick = function(){
+                        game.removeChild(End);
+                        location.reload();
+                    }
+                }
+
+                // 如果游戏通过，停止循环
+                if (gameState.isOver == "挑战成功") {
+                    var End = document.createElement('div'); // 元素节点
+                    End.className = "vict";
+                    End.innerText = gameState.grade;
+                    game.appendChild(End);
+                    clearInterval(Appset);
+                    End.ondblclick = function(){
+                        game.removeChild(End);
+                        location.reload();
+                    }
+                }
+
+            }, 50);
+            setInterval(function(){
+                gameState.toolbar[0].element.innerText++;
+            }, 1000);
+            game.removeChild(Go);
+        }
+
+    </script>
+
+</body>
+
+</html>
