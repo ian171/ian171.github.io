@@ -4,7 +4,7 @@
         <body oncontextmenu=self.event.returnValue=false>
         <style>
 body {
-  background-image: url('https://chen.ox.cm/2.jpg');
+  background-image: url('2.jpg');
 }
 a {
         text-decoration: none;
@@ -39,31 +39,57 @@ button {
         <h1><center>个人博客网站</center></h1>
         <center>
         <h2>制作人：陈叶果 </h2>
+        <p id="quote"></p>
+        <script>
+            // 勵志話語清單
+            const quotes = [
+                "「成功的人並不是不會失敗，而是不會被失敗所打敗。」",
+                "「相信自己，你能做到。」",
+                "「每一個結束都是一個新的開始。」",
+                "看到成功的希望，才有努力的力量；積累小的成功，才能化為大的勝利。",
+                "不要小看日復一日、年復一年的努力，從金沙慢慢的累積，未來就會有一座金山出現。 ",
+                "「失敗為成功之母」把它看成老生常談，毫無價值；看成至理名言，是你成就的最佳保證。",
+                "遇到困難你不退，你是很勇悍的人，非常了不起。",
+                "困難出現時，記得鎖定目標，精勤努力，直到成功。",
+                "不要怕困難，做任何事情，真正爬上去，一定有障礙。",
+                // 在這裡添加更多的勵志話語
+            ];
+    
+            // 隨機選擇一句話
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+    
+            // 將話語顯示在網頁上
+            document.getElementById("quote").textContent = randomQuote;
+
+        </script>
         <button onclick="wechat()">浏览器信息</button><br>
         <h6> </h6>
-        <a href="https://ian171.github.io/Bird/">点击游玩-飞翔的小鸟--\(˙<>˙)/--<br></a>
+        <a href="Bird/">点击游玩-飞翔的小鸟--\(˙<>˙)/--<br></a>
         <br>
         <a href="https://ian171.github.io/2048">点击游玩-2048<br></a>
         <br>
-        <a href="https://ian171.github.io/pacman">点击游玩-糖豆人<br></a>
+        <a href="pacman/">点击游玩-糖豆人<br></a>
         <br>
-        <a href="https://ian171.github.io/rusblock">点击游玩-俄罗斯方块<br></a>
+        <a href="rusblock/">点击游玩-俄罗斯方块<br></a>
         <br>
-        <a href="https://ian171.github.io/minecraft">点击游玩-我的世界<br></a>
+        <a href="minecraft/">点击游玩-我的世界<br></a>
         <br>
-        <a href="https://ian171.github.io/pvz/src">点击游玩-植物大战僵尸---中文版<br></a>
+        <a href="pvz/src/index.html">点击游玩-植物大战僵尸---中文版<br></a>
         <br>
         <a href="https://eaglercraft.com/mc/1.8.8/">点击游玩-我的世界1.8.8<br></a>
         <br>
-        <a href="https://ian171.github.io/new">进入新主页<br></a>
+        <a href="new/">进入新主页<br></a>
         <br>
-        <a href="https://ian171.github.io/suicide.html">如果你不想活了，来这里看看吧<br></a>
+        <a href="suicide.html">如果你不想活了，来这里看看吧<br></a>
         
         <iframe src="https://neverup7.github.io/notion.clock" width="600" height="450" style="border:0;"  allowfullscreen="true"  loading="lazy"  referrerpolicy="no-referrer-when-downgrade"></iframe>
         
         </center>
+        
 
-    
+        
+</body>
     <!DOCTYPE html>
  
  
@@ -86,7 +112,7 @@ button {
             var seconds = date.getSeconds(); //获取秒
             seconds = seconds < 10 ? '0' + seconds : seconds;
             return year + '年' + month + '月' + day + '日&nbsp;' + hour + ':' + minute + ':' + seconds +  
-            '浏览器信息' + b_version + browser + version;
+            '浏览器信息:' + b_version + browser + version;
         }
  
         setInterval(function() {
